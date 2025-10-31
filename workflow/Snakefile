@@ -1,0 +1,30 @@
+import os
+import glob
+
+configfile: "config/config.yaml"
+
+czi_files = glob.glob(f"{config['input_dir']}/*.czi")
+samples = [os.path.splitext(os.path.basename(f))[0] for f in czi_files]
+
+rule all:
+    input:
+        expand(f"results/{{sample}}.tiff", sample=samples)
+
+rule convert_czi_to_tiff:
+    input:
+        czi = lambda wc: os.path.join(config["input_dir"], f"{wc.sample}.czi")
+    output:
+        tiff = "results/{sample}.tiff"
+    log:
+        "logs/{sample}.log"
+    conda:
+        "envs/bftools.yaml"
+    resources:
+        mem_mb = config["resources"]["mem_mb"],
+        runtime = config["resources"]["runtime"],
+    params:
+        all = config["params"]
+    threads: config["resources"]["threads"]
+    shell: """
+        bfconvert {params.all} {input.czi} {output.tiff} > {log} 2>&1
+    """

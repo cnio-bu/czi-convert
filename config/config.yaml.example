@@ -1,0 +1,8 @@
+input_dir: "/storage/scratch01/groups/bu/renacer_paradifference_histology/raw_czi"
+
+params: "-overwrite -compression LZW"
+
+resources:
+  mem_mb: 64000
+  threads: 1
+  runtime: 30

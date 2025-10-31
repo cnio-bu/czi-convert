@@ -1,0 +1,15 @@
+!.gitignore
+__pycache__/
+!config/config.*.yaml.example
+config/config.*.yaml
+config/config.yaml
+logs/
+resources/
+.snakemake*
+.*.swp
+results
+
+/.tests/integration/*
+!/.tests/integration/config/
+!/.tests/integration/config/**
+!/.tests/integration/get_resources.sh
